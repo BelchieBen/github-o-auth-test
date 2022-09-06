@@ -2,8 +2,22 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+import React from 'react';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const isActive: (pathname: string) => boolean = (pathname) =>
+    router.pathname === pathname;
+
+  const { data: session, status } = useSession();
+
+  React.useEffect(() => {
+    console.log(session);
+  }, [session])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +28,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Next.js!</a> {session ? <><p>{session?.user?.name}</p> <Link href="/api/auth/signout">Logout</Link>  </>: <Link href="/api/auth/signin">Login</Link>}
         </h1>
 
         <p className={styles.description}>
