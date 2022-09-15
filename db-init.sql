@@ -1,0 +1,1 @@
+CREATE DATABASE github-o-auth-test WITH ENCODING 'UTF8' LC_COLLATE='English_United Kingdom' LC_CTYPE='English_United Kingdom';

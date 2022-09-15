@@ -6,17 +6,19 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import React from 'react';
 import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0';
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
 
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
-  React.useEffect(() => {
-    console.log(session);
-  }, [session])
+  // React.useEffect(() => {
+  //   console.log(session);
+  // }, [session])
 
   return (
     <div className={styles.container}>
@@ -28,8 +30,10 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a> {session ? <><p>{session?.user?.name}</p> <Link href="/api/auth/signout">Logout</Link>  </>: <Link href="/api/auth/signin">Login</Link>}
+          Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        {user? <Link href="/api/auth/logout">Logout</Link>: <Link href="/api/auth/login">Login</Link>}
+        
 
         <p className={styles.description}>
           Get started by editing{' '}
